@@ -47,8 +47,6 @@ colis-app/
 │   ├── style.css        # Présentation responsive
 │   ├── manifest.json    # Métadonnées PWA (icônes à ajouter)
 │   └── sw.js            # Service worker hors ligne (version du cache à incrémenter à chaque mise à jour)
-├── .env.example         # Noms des variables prévues, valeurs vides
-├── .gitignore           # Fichiers et secrets à ne pas versionner
 ├── install.bat          # Lancement sous Windows
 ├── install.sh           # Lancement sous Linux/macOS
 ├── LICENSE              # Licence MIT; titulaire à compléter
