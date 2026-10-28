@@ -1,8 +1,0 @@
-{
-  "name": "colis-app",
-  "version": "0.1.0",
-  "scripts": {
-    "start": "npx serve public"
-  },
-  "license": "MIT"
-}
