@@ -151,19 +151,6 @@ Proposition de propriétés pour une future base Notion (noms sans accents). Les
 - Captures : _à ajouter_
 - Lien : _à ajouter_
 
-## Publier le projet sur GitHub
-
-Créer d’abord un dépôt vide sur GitHub, puis remplacer l’URL ci-dessous par celle de ce dépôt :
-
-```sh
-git init
-git add .
-git commit -m "Initial commit: application reception colis"
-git branch -M main
-git remote add origin https://github.com/VOTRE-UTILISATEUR/VOTRE-DEPOT.git
-git push -u origin main
-```
-
 ## Licence
 
 Ce projet est distribué sous licence MIT. Le titulaire des droits dans `LICENSE` est à compléter.
