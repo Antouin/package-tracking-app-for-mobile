@@ -1,0 +1,244 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #1f2937;
+  padding: 14px 10px 100px;
+  min-height: 100vh;
+  /* fond bois */
+  background-color: #a9743f;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 2px, transparent 2px 9px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 14px),
+    linear-gradient(135deg, #b98350, #8b5a2b);
+}
+
+/* ===== Planche du presse-papiers ===== */
+.clipboard {
+  position: relative;
+  max-width: 640px;
+  margin: 26px auto 0;
+  padding: 44px 14px 16px;
+  background: linear-gradient(145deg, #c08a52, #8e5b2b);
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.45), inset 0 0 0 2px rgba(0,0,0,.15);
+}
+
+/* Pince métallique */
+.clip {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 56px;
+  background: linear-gradient(180deg, #e5e7eb 0%, #9ca3af 55%, #6b7280 100%);
+  border-radius: 10px 10px 6px 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.7);
+  z-index: 5;
+}
+.clip::before { /* anneau */
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 22px;
+  border: 5px solid #9ca3af;
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+}
+.clip::after { /* trou */
+  content: "";
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 8px;
+  background: rgba(0,0,0,.35);
+  border-radius: 6px;
+}
+
+/* ===== Feuille de papier ===== */
+.feuille {
+  background-color: #fffef6;
+  /* lignes de cahier + marge rouge */
+  background-image:
+    linear-gradient(90deg, transparent 36px, rgba(220,38,38,.35) 36px, rgba(220,38,38,.35) 38px, transparent 38px),
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(59,130,246,.18) 27px 28px);
+  border-radius: 4px;
+  padding: 20px 14px 16px 50px;
+  min-height: 60vh;
+  box-shadow: 0 3px 8px rgba(0,0,0,.3);
+}
+
+header { margin-bottom: 12px; }
+header h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: .5px;
+  font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive;
+}
+.date-jour { font-size: 13px; color: #6b7280; margin-top: 2px; text-transform: capitalize; }
+
+/* ===== Onglets (intercalaires) ===== */
+.tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.tabs button {
+  flex: 1;
+  padding: 9px 4px;
+  border: 1px solid #c9b88a;
+  background: #f3e9c6;
+  color: #4b3b1a;
+  border-radius: 8px 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.tabs button.active {
+  background: #fde68a;
+  border-color: #b8860b;
+  box-shadow: 0 -3px 0 #b8860b inset;
+}
+
+.badge {
+  background: #8b5a2b;
+  color: #fff;
+  min-width: 24px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 18px;
+}
+.tabs button.active .badge { background: #b45309; }
+.tabs button[data-statut="Remis"] .badge { background: #15803d; }
+.tabs button[data-statut="Notifie"] .badge { background: #2563eb; }
+
+/* ===== Recherche ===== */
+#recherche {
+  width: 100%;
+  padding: 11px;
+  border: 1px dashed #a8a29e;
+  background: rgba(255,255,255,.7);
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* ===== Fiches colis (post-it) ===== */
+.carte {
+  background: #fff9c4;
+  border-radius: 3px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  box-shadow: 2px 3px 6px rgba(0,0,0,.22);
+  border-left: 5px solid #eab308;
+}
+.carte:nth-child(odd)  { transform: rotate(-.4deg); }
+.carte:nth-child(even) { transform: rotate(.4deg); }
+
+.carte .ligne1 { display: flex; justify-content: space-between; font-weight: 700; }
+.carte .detail { color: #57534e; font-size: 14px; margin-top: 4px; }
+.carte .alerte { color: #b45309; font-size: 13px; margin-top: 4px; font-weight: 600; }
+.carte .boutons { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+.vide { text-align: center; color: #9ca3af; padding: 30px 0; font-style: italic; }
+
+/* ===== Boutons ===== */
+button {
+  background: #2563eb;
+  color: #fff;
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 15px;
+  cursor: pointer;
+}
+button.secondaire { background: #e5e7eb; color: #111827; }
+button.ok { background: #16a34a; }
+button.danger { background: #dc2626; }
+
+.fab {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 16px 28px;
+  font-size: 17px;
+  border-radius: 999px;
+  background: #b45309;
+  box-shadow: 0 4px 12px rgba(0,0,0,.45);
+  z-index: 20;
+}
+
+/* ===== Formulaire ===== */
+dialog {
+  border: 0;
+  border-radius: 6px;
+  padding: 18px;
+  width: min(92vw, 440px);
+  background: #fffef6;
+}
+dialog::backdrop { background: rgba(0,0,0,.5); }
+dialog h2 { margin-top: 0; font-family: "Segoe Print", "Bradley Hand", cursive; }
+
+label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 600; }
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border: 1px solid #d6d3d1;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  background: #fff;
+}
+
+.actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 10px; }
+
+#sign-canvas {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #9ca3af;
+  border-radius: 8px;
+  background: #fff;
+  touch-action: none; /* indispensable pour dessiner au doigt sans faire défiler la page */
+  display: block;
+}
+.signature-vignette {
+  height: 40px;
+  margin-top: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.header-ligne {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.btn-icone {
+  background: transparent;
+  font-size: 22px;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.carte .dates {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px dashed #d6b656;
+  font-size: 12px;
+  color: #78716c;
+  line-height: 1.6;
+}
