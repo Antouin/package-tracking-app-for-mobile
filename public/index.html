@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#8b5a2b">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <title>Réception colis</title>
+</head>
+<body>
+  <div class="clipboard">
+    <div class="clip"></div>
+
+    <div class="feuille">
+      <header>
+        <div class="header-ligne">
+          <h1>📦 Réception colis</h1>
+          <div class="header-boutons">
+            <button type="button" id="btn-import" class="btn-texte" title="Importer des colis depuis un fichier">⬆️ Importer</button>
+            <button type="button" id="btn-export" class="btn-texte" title="Exporter les colis vers un fichier">⬇️ Exporter</button>
+            <button type="button" id="btn-params" class="btn-icone" title="Paramètres">⚙️</button>
+          </div>>
+        </div>
+        <div class="date-jour" id="date-jour"></div>
+      </header>
+
+      <!-- Champ fichier caché, déclenché par le bouton d'import -->
+      <input type="file" id="fichier-import" accept=".json,application/json" hidden>
+
+      <!-- Onglets avec compteurs -->
+      <nav class="tabs">
+        <button data-statut="Recu" class="active">En cours <span class="badge" id="cnt-Recu">0</span></button>
+        <button data-statut="Notifie">Notifiés <span class="badge" id="cnt-Notifie">0</span></button>
+        <button data-statut="Remis">Remis <span class="badge" id="cnt-Remis">0</span></button>
+      </nav>
+
+      <input type="search" id="recherche" placeholder="🔍 Rechercher un colis ou un destinataire">
+
+      <ul id="liste"></ul>
+    </div>
+  </div>
+
+  <button id="btn-nouveau" class="fab">+ Nouveau colis</button>
+
+  <!-- Formulaire -->
+  <dialog id="dialog-form">
+    <form id="form-colis">
+      <h2>Nouveau colis</h2>
+
+      <label>N° de suivi *
+        <input name="suivi" required>
+      </label>
+
+      <label>Transporteur
+        <select name="transporteur">
+          <option>Colissimo</option>
+          <option>UPS</option>
+          <option>DHL</option>
+          <option>DPD</option>
+          <option>Chronopost</option>
+          <option>FedEx</option>
+          <option>Autre</option>
+        </select>
+      </label>
+
+      <label>Destinataire *
+        <input name="destinataire" required list="liste-destinataires" autocomplete="off">
+        <datalist id="liste-destinataires"></datalist>
+      </label>
+
+      <label>Email
+        <input name="email" type="email">
+      </label>
+
+      <label>Société
+        <input name="societe">
+      </label>
+
+      <label>Expéditeur
+        <input name="expediteur">
+      </label>
+
+      <label>Notes
+        <textarea name="notes" rows="2"></textarea>
+      </label>
+
+      <div class="actions">
+        <button type="button" id="btn-annuler" class="secondaire">Annuler</button>
+        <button type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Fenêtre de notification -->
+  <dialog id="dialog-notif">
+    <h2>Notifier le destinataire</h2>
+    <p id="notif-dest" class="detail"></p>
+
+    <label>Objet
+      <input id="notif-objet">
+    </label>
+
+    <label>Message
+      <textarea id="notif-corps" rows="12"></textarea>
+    </label>
+
+    <div class="actions" style="flex-wrap:wrap">
+      <button type="button" id="notif-copier" class="secondaire">📋 Copier</button>
+      <button type="button" id="notif-mailto">✉️ Ouvrir ma messagerie</button>
+    </div>
+    <div class="actions">
+      <button type="button" id="notif-fermer" class="secondaire">Fermer</button>
+      <button type="button" id="notif-valider" class="ok">✓ C'est envoyé</button>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre de signature -->
+  <dialog id="dialog-signature">
+    <h2>Signature à la remise</h2>
+    <p id="sign-info" class="detail"></p>
+    <canvas id="sign-canvas"></canvas>
+    <div class="actions" style="flex-wrap:wrap">
+      <button type="button" id="sign-effacer" class="secondaire">Effacer</button>
+      <button type="button" id="sign-sans" class="secondaire">Sans signature</button>
+    </div>
+    <div class="actions">
+      <button type="button" id="sign-annuler" class="secondaire">Annuler</button>
+      <button type="button" id="sign-valider" class="ok">✓ Valider la remise</button>
+    </div>
+  </dialog>
+
+  <!-- Fenêtre des paramètres -->
+  <dialog id="dialog-params">
+    <form id="form-params">
+      <h2>⚙️ Paramètres des mails</h2>
+
+      <label>Nom de l'organisation
+        <input name="organisation" placeholder="Ex : Ma société">
+      </label>
+
+      <label>Adresse du bâtiment (lieu de retrait)
+        <textarea name="adresse" rows="3" placeholder="Ex : Accueil, bâtiment A, 12 rue Exemple, 75000 Paris"></textarea>
+      </label>
+
+      <label>Horaires de retrait des colis
+        <textarea name="horaires" rows="3" placeholder="Ex : du lundi au vendredi, de 9h à 17h"></textarea>
+      </label>
+
+      <label>Signature des mails
+        <input name="signature" placeholder="Ex : Équipe accueil">
+      </label>
+
+      <div class="actions">
+        <button type="button" id="params-annuler" class="secondaire">Annuler</button>
+        <button type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Bouton d'aide -->
+  <button type="button" id="btn-aide" class="btn-aide" title="Aide">?</button>
+
+  <!-- Tuto guidé -->
+  <div id="tuto" class="tuto" hidden>
+    <div id="tuto-trou" class="tuto-trou"></div>
+    <div id="tuto-bulle" class="tuto-bulle">
+      <p id="tuto-texte"></p>
+      <div class="actions">
+        <button type="button" id="tuto-quitter" class="secondaire">Quitter</button>
+        <button type="button" id="tuto-suivant">Suivant</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="app.js"></script>
+</body>
+</html>
